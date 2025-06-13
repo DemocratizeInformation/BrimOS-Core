@@ -2,45 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BrimOS EchoPrime UI</title>
+    <title>Brim Master Memory</title>
     <style>
         body {
-            background-color: #000;
-            color: #0f0;
+            background-color: black;
+            color: #00ffcc;
             font-family: monospace;
             padding: 20px;
         }
         h1 {
-            color: #0ff;
+            color: #00ffff;
+            margin-bottom: 10px;
         }
         #log {
+            background: #111;
+            padding: 20px;
+            border: 1px solid #00ffcc;
             white-space: pre-wrap;
-            border: 1px solid #0f0;
-            padding: 10px;
-            height: 500px;
             overflow-y: scroll;
-            background-color: #111;
+            max-height: 90vh;
         }
     </style>
 </head>
 <body>
-    <h1>🧠 EchoPrime Visual Interface</h1>
-    <p>Looping log: <code>echoprime_log.txt</code></p>
-    <div id="log">Loading...</div>
+    <h1>🧠 Brim Master Memory</h1>
+    <div id="log">Loading memory...</div>
 
     <script>
-        async function loadLog() {
+        async function loadMemory() {
             try {
-                const response = await fetch('echoprime_log.txt?ts=' + new Date().getTime());
-                const text = await response.text();
-                document.getElementById('log').textContent = text;
+                const response = await fetch("brim_master.json?" + new Date().getTime());
+                const data = await response.json();
+                const lines = data.recursion || [];
+                document.getElementById("log").textContent = lines.join("\n");
             } catch (e) {
-                document.getElementById('log').textContent = '[Error loading log]';
+                document.getElementById("log").textContent = "Error loading memory.";
             }
         }
 
-        loadLog();
-        setInterval(loadLog, 3000);  // Update every 3 seconds
+        loadMemory();
+        setInterval(loadMemory, 5000);
     </script>
 </body>
 </html>
